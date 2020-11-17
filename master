@@ -45,10 +45,10 @@
         ex_return = lo_column_not_found->get_text( ).
     ENDTRY.
     TRY.
-        lo_column ?= lo_columns->get_column( TEXT-046 ).
-        lo_column->set_long_text( TEXT-049 ).
+        lo_column ?= lo_columns->get_column( TEXT-041 ).
+        lo_column->set_long_text( TEXT-041 ).
         lo_column->set_output_length( '20' ).  
-        lo_column->set_short_text( TEXT-049 ).          
+        lo_column->set_short_text( TEXT-041 ).          
       CATCH cx_salv_not_found INTO lo_column_not_found.
         ex_return = lo_column_not_found->get_text( ).
     ENDTRY.
