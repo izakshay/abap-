@@ -1,6 +1,55 @@
-akshay mittal
-mno
-test2
-abcdeq
-xyz
+    DATA: lo_functions TYPE REF TO cl_salv_functions,
+          lo_columns   TYPE REF TO cl_salv_columns_table,
+          lo_column    TYPE REF TO cl_salv_column_table,
+          lo_display   TYPE REF TO cl_salv_display_settings,
+          lo_layout    TYPE REF TO cl_salv_layout,
+          lo_events    TYPE REF TO cl_salv_events_table,
+          lo_error     TYPE REF TO cx_salv_msg,
+          ls_key       TYPE salv_s_layout_key,
+          lv_msg_txt   TYPE string.
 
+    TRY.
+        git_output = im_t_result.
+        cl_salv_table=>factory(
+          EXPORTING
+            list_display   = abap_false
+          IMPORTING
+            r_salv_table   = DATA(lo_table)
+          CHANGING
+            t_table        = git_output ).
+      CATCH cx_salv_msg INTO lo_error.
+        lv_msg_txt = lo_error->get_text( ).
+    ENDTRY.
+
+    IF NOT lv_msg_txt IS INITIAL.
+      MESSAGE lv_msg_txt TYPE gc_i .
+    ENDIF.
+
+*   Display Settings
+    lo_display = lo_table->get_display_settings( ).
+    lo_display->set_striped_pattern( abap_true ).
+    lo_display->set_list_header( sy-title ).
+
+*   Columns
+    lo_columns = lo_table->get_columns( ).
+    lo_columns->set_key_fixation( abap_true ).
+    lo_columns->set_optimize( ).
+    TRY.
+        lo_column ?= lo_columns->get_column( TEXT-013 ).
+        lo_column->set_icon( if_salv_c_bool_sap=>true ).
+        lo_column->set_long_text( TEXT-016 ).
+
+        lo_column->set_short_text( TEXT-030 ).
+        lo_column->set_output_length( '4' ).
+      CATCH cx_salv_not_found INTO DATA(lo_column_not_found).
+        ex_return = lo_column_not_found->get_text( ).
+    ENDTRY.
+    TRY.
+        lo_column ?= lo_columns->get_column( TEXT-046 ).
+        lo_column->set_icon( if_salv_c_bool_sap=>true ). 
+        lo_column->set_long_text( TEXT-049 ).
+        lo_column->set_short_text( TEXT-049 ).
+        lo_column->set_output_length( '10' ).            
+      CATCH cx_salv_not_found INTO lo_column_not_found.
+        ex_return = lo_column_not_found->get_text( ).
+    ENDTRY.
