@@ -1,6 +1,16 @@
-akshay mittal
-mno
-test2
-abcdeq
-xyz
+*&---------------------------------------------------------------------*
+*& Report ZTEST_COMPARE1
+*&---------------------------------------------------------------------*
+*&
+*&---------------------------------------------------------------------*
+REPORT ZTEST_BRANCH1.
 
+Version B1
+1.. no change
+3... changed
+
+...10
+
+Select * from MARA
+into table it_mara
+ORDER by Primary key.
