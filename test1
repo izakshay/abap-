@@ -1,0 +1,50 @@
+*&---------------------------------------------------------------------*
+*& Report ZMASTER
+*&---------------------------------------------------------------------*
+*&
+*&---------------------------------------------------------------------*
+REPORT zmaster.
+
+DATA : it_mara TYPE STANDARD TABLE OF mara,
+       p_file  TYPE rlgrap-filename,
+       p_file1 TYPE rlgrap-filename,
+       p_type  TYPE rlgrap-filetype,
+       p_type1 TYPE rlgrap-filetype.
+
+SELECT * FROM mara
+  INTO TABLE @DATA(lit_mara).
+IF sy-subrc = 0.
+ENDIF.
+
+CALL FUNCTION 'upload'
+  EXPORTING
+*   codepage     = ' '
+    filename     = p_file
+    filetype     = p_type
+*   item         = ' '
+*   filemask_mask                 = ' '
+*   filemask_text                 = ' '
+*   filetype_no_change            = ' '
+*   filemask_all = ' '
+*   filetype_no_show              = ' '
+*   line_exit    = ' '
+*   user_form    = ' '
+*   user_prog    = ' '
+*   silent       = 's'
+  IMPORTING
+*   filesize     =
+*   cancel       =
+    act_filename = p_file1
+    act_filetype = p_type1
+  TABLES
+    data_tab     = it_mara
+* exceptions
+*   conversion_error              = 1
+*   invalid_table_width           = 2
+*   invalid_type = 3
+*   no_batch     = 4
+*   unknown_error                 = 5
+*   gui_refuse_filetransfer       = 6
+*   others       = 7
+  .
+OPEN DATASET lv_something2 FOR INPUT IN TEXT MODE.
