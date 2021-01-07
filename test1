@@ -16,6 +16,10 @@ SELECT * FROM mara
 IF sy-subrc = 0.
 ENDIF.
 
+SELECT * FROM bkpf
+  INTO TABLE @DATA(it_bkpf)
+  UP TO 10 ROWS ORDER BY PRIMARY KEY.
+
 CALL FUNCTION 'upload'
   EXPORTING
 *   codepage     = ' '
@@ -47,4 +51,6 @@ CALL FUNCTION 'upload'
 *   gui_refuse_filetransfer       = 6
 *   others       = 7
   .
-OPEN DATASET lv_something2 FOR INPUT IN TEXT MODE.
+SELECT * FROM vbak
+  INTO TABLE @DATA(lit_vbak)
+  UP TO 10 ROWS.
